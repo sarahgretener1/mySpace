@@ -6,6 +6,66 @@ const widgetCard = document.querySelector(".widget-card");
 const ICON_WIDTH = 106;
 const ICON_HEIGHT = 98;
 
+// ── Session & Sync ──────────────────────────────────────────────────────────
+
+function getOrCreateSessionId() {
+  let id = sessionStorage.getItem("roomSessionId");
+  if (!id) {
+    id = Math.random().toString(36).slice(2, 10).toUpperCase();
+    sessionStorage.setItem("roomSessionId", id);
+  }
+  return id;
+}
+
+const SESSION_ID = getOrCreateSessionId();
+const sync = new SyncManager(SESSION_ID);
+
+function getMobileUrl() {
+  const base = window.location.href.replace(/\/[^/]*$/, "/mobile.html");
+  return `${base}?s=${SESSION_ID}`;
+}
+
+function initSecondScreenPanel() {
+  const qrSessionId = document.getElementById("qrSessionId");
+  const qrLink      = document.getElementById("qrLink");
+  const qrCode      = document.getElementById("qrCode");
+  const syncMode    = document.getElementById("syncMode");
+
+  if (!qrCode) {
+    return;
+  }
+
+  const mobileUrl = getMobileUrl();
+
+  if (qrSessionId) {
+    qrSessionId.textContent = SESSION_ID;
+  }
+  if (qrLink) {
+    qrLink.href = mobileUrl;
+    qrLink.textContent = "Link öffnen ↗";
+  }
+  if (syncMode) {
+    syncMode.textContent = sync.isFirebaseActive()
+      ? "🟢 Firebase aktiv – geräteübergreifend"
+      : "🟡 BroadcastChannel – nur gleicher Browser";
+  }
+
+  if (typeof QRCode !== "undefined") {
+    new QRCode(qrCode, {
+      text: mobileUrl,
+      width: 110,
+      height: 110,
+      colorDark: "#0f1623",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.M
+    });
+  } else {
+    qrCode.innerHTML = `<a class="qr-fallback-link" href="${mobileUrl}" target="_blank" rel="noopener noreferrer">Mobile öffnen ↗</a>`;
+  }
+}
+
+// ── Data ────────────────────────────────────────────────────────────────────
+
 const folderPool = [
   "bed",
   "wardrobe",
@@ -226,6 +286,9 @@ function moveFileToFolder(fileId, folderId) {
 
   folder.files.push(file.name);
   file.location = folderId;
+
+  sync.emit("file_cleaned", { fileName: file.name, folderName: folder.name });
+
   setActiveFolder(folderId);
   renderDesktop();
 }
@@ -302,6 +365,7 @@ function renderDesktop() {
 }
 
 renderDesktop();
+initSecondScreenPanel();
 
 window.addEventListener("resize", () => {
   applyRandomLayout();
