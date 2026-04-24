@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Mac Desktop Mockup</title>
+	<title>mySpace – Desktop</title>
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -29,11 +29,35 @@
 					<p class="folder-name" id="activeFolderName">Ordnerinhalt</p>
 					<ul class="folder-list" id="folderList"></ul>
 				</div>
+
+				<div class="second-screen-panel" id="secondScreenPanel">
+					<p class="widget-title" style="margin-top:18px;">Second Screen</p>
+					<p class="second-screen-copy">
+						Scanne den QR-Code mit deinem Smartphone – die Checkliste aktualisiert sich in Echtzeit,
+						wenn du Dateien auf dem Desktop aufräumst.
+					</p>
+					<div class="qr-row">
+						<div class="qr-box" id="qrCode"></div>
+						<div class="qr-meta">
+							<p class="qr-label">Session-ID</p>
+							<p class="qr-session-id" id="qrSessionId">…</p>
+							<a class="qr-link" id="qrLink" target="_blank" rel="noopener noreferrer">Link öffnen ↗</a>
+						</div>
+					</div>
+					<p class="sync-mode" id="syncMode"></p>
+				</div>
 			</aside>
 		</main>
 
 	</div>
 
+	<script src="firebase-config.js"></script>
+	<!-- Firebase SDK – wird nur aktiv, wenn firebase-config.js konfiguriert ist -->
+	<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+	<!-- QR-Code Generator -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+	<script src="sync.js"></script>
 	<script src="script.js"></script>
 </body>
 </html>

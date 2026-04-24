@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="de">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<title>Checkliste – Zimmer aufräumen</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="mobile.css">
+</head>
+<body>
+	<div class="phone-shell">
+
+		<header class="cl-header">
+			<p class="cl-eyebrow">Second Screen</p>
+			<h1 class="cl-title">Aufräum-Checkliste</h1>
+			<p class="cl-subtitle">Hake ab, was auf dem Desktop aufgeräumt wurde.</p>
+		</header>
+
+		<div class="cl-status" id="statusBar" aria-live="polite">
+			<span class="status-dot" id="statusDot"></span>
+			<span class="status-text" id="statusText">Verbinde…</span>
+		</div>
+
+		<div class="cl-session" id="sessionInfo" hidden>
+			<span class="session-label">Session</span>
+			<span class="session-id" id="sessionIdDisplay"></span>
+		</div>
+
+		<main class="cl-body">
+			<ul class="checklist" id="checklist" aria-label="Aufräum-Checkliste"></ul>
+		</main>
+
+		<div class="cl-progress" id="progressBar" hidden>
+			<div class="progress-track">
+				<div class="progress-fill" id="progressFill"></div>
+			</div>
+			<p class="progress-label" id="progressLabel">0 / 11 aufgeräumt</p>
+		</div>
+
+		<div class="cl-done" id="doneMessage" hidden>
+			<span class="done-emoji">🎉</span>
+			<p class="done-text">Alles aufgeräumt!</p>
+			<p class="done-sub">Zimmer ist sauber. Top-Arbeit!</p>
+		</div>
+
+	</div>
+
+	<script src="firebase-config.js"></script>
+	<!-- Firebase SDK – wird nur aktiv, wenn firebase-config.js konfiguriert ist -->
+	<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+	<script src="sync.js"></script>
+	<script src="mobile.js"></script>
+</body>
+</html>
