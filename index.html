@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="de">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Mac Desktop Mockup</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+	<div class="desktop" role="img" aria-label="Mac book desktop lookalike">
+		<img class="overlay-image nav-left-image" src="img/nav_links.png" alt="Navigation links">
+		<img class="overlay-image nav-right-image" src="img/nav_rechts.png" alt="Navigation rechts">
+		<img class="overlay-image taskbar-image" src="img/taskleiste.png" alt="Taskleiste">
+
+		<main class="desktop-area">
+			<section class="desktop-icons" id="desktopIcons" aria-label="Desktop elements"></section>
+
+			<aside class="widget-card">
+				<p class="widget-title">Schnellzugriff</p>
+				<h1>Finder Ablage</h1>
+				<p class="widget-copy">
+					Auf dem Desktop werden zufaellige Dateien und Ordner erzeugt. Ziehe Dateien per
+					Drag and Drop auf einen Ordner, um sie dorthin zu verschieben.
+				</p>
+				<div class="folder-panel">
+					<p class="folder-name" id="activeFolderName">Ordnerinhalt</p>
+					<ul class="folder-list" id="folderList"></ul>
+				</div>
+			</aside>
+		</main>
+
+	</div>
+
+	<script src="script.js"></script>
+</body>
+</html>
