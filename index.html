@@ -29,11 +29,29 @@
 					<p class="folder-name" id="activeFolderName">Ordnerinhalt</p>
 					<ul class="folder-list" id="folderList"></ul>
 				</div>
+
+				<p class="second-screen-copy">
+					Second Screen: Öffne die mobile Checkliste über QR-Code oder Link.
+				</p>
+				<div class="qr-row">
+					<div class="qr-box" id="qrCode" aria-label="QR-Code zur mobilen Ansicht"></div>
+					<div class="qr-meta">
+						<p class="qr-label">Session</p>
+						<span class="qr-session-id" id="qrSessionId">-</span>
+						<a class="qr-link" id="qrLink" href="#" target="_blank" rel="noopener noreferrer">Link öffnen ↗</a>
+					</div>
+				</div>
+				<p class="sync-mode" id="syncMode">Sync wird geprüft...</p>
 			</aside>
 		</main>
 
 	</div>
 
+	<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+	<script src="firebase-config.js"></script>
+	<script src="sync.js"></script>
 	<script src="script.js"></script>
 </body>
 </html>

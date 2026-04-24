@@ -1,5 +1,13 @@
 {
   "database": {
-    "rules": "firebase-config.js"
+    "rules": "database.rules.json"
+  },
+  "hosting": {
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
   }
 }

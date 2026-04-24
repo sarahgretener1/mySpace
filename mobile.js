@@ -5,28 +5,49 @@
  * baut die Checkliste auf und wartet auf Sync-Events vom Desktop.
  */
 
-const CHECKLIST_ITEMS = [
-  { id: "sock1.socks",  emoji: "🧦", label: "Socken 1",    target: "wardrobe" },
-  { id: "sock2.socks",  emoji: "🧦", label: "Socken 2",    target: "wardrobe" },
-  { id: "sock3.socks",  emoji: "🧦", label: "Socken 3",    target: "wardrobe" },
-  { id: "sock4.socks",  emoji: "🧦", label: "Socken 4",    target: "wardrobe" },
-  { id: "cap1.hat",     emoji: "🧢", label: "Kappe 1",     target: "wardrobe" },
-  { id: "cap2.hat",     emoji: "🧢", label: "Kappe 2",     target: "wardrobe" },
-  { id: "sweater.top",  emoji: "🧥", label: "Pullover",    target: "wardrobe" },
-  { id: "shirt.top",    emoji: "👕", label: "T-Shirt 1",   target: "wardrobe" },
-  { id: "shirt2.top",   emoji: "👕", label: "T-Shirt 2",   target: "wardrobe" },
-  { id: "bear.teddy",   emoji: "🧸", label: "Teddybär",    target: "bed"      },
-  { id: "dog.teddy",    emoji: "🐶", label: "Hund-Plüschi", target: "bed"     }
+const CHECKLIST_GROUPS = [
+  {
+    id: "socks",
+    label: "Socken",
+    target: "wardrobe",
+    files: ["sock1.socks", "sock2.socks", "sock3.socks", "sock4.socks"]
+  },
+  {
+    id: "caps",
+    label: "Kappen",
+    target: "wardrobe",
+    files: ["cap1.hat", "cap2.hat"]
+  },
+  {
+    id: "shirts",
+    label: "T-Shirts",
+    target: "wardrobe",
+    files: ["shirt.top", "shirt2.top"]
+  },
+  {
+    id: "sweater",
+    label: "Pullover",
+    target: "wardrobe",
+    files: ["sweater.top"]
+  },
+  {
+    id: "plushies",
+    label: "Kuscheltiere",
+    target: "bed",
+    files: ["bear.teddy", "dog.teddy"]
+  }
 ];
 
-const FOLDER_LABELS = {
-  wardrobe: "Kleiderschrank",
-  bed:      "Bett",
-  desk:     "Schreibtisch",
-  "trash can": "Mülleimer"
-};
+const checkedFiles = new Set();
+const groupCounts = new Map();
 
-const checkedItems = new Set();
+const FILE_TO_GROUP = CHECKLIST_GROUPS.reduce((acc, group) => {
+  group.files.forEach((fileName) => {
+    acc[fileName] = group.id;
+  });
+  return acc;
+}, {});
+
 let sync = null;
 
 function getSessionId() {
@@ -38,21 +59,19 @@ function buildChecklist() {
   const list = document.getElementById("checklist");
   list.innerHTML = "";
 
-  CHECKLIST_ITEMS.forEach((item) => {
+  CHECKLIST_GROUPS.forEach((group) => {
+    groupCounts.set(group.id, 0);
+
     const li = document.createElement("li");
     li.className = "checklist-item";
-    li.id = `item-${item.id}`;
-    li.setAttribute("aria-label", item.label);
-
-    const folderLabel = FOLDER_LABELS[item.target] || item.target;
+    li.id = `item-${group.id}`;
+    li.setAttribute("aria-label", group.label);
 
     li.innerHTML = `
-      <span class="item-emoji" aria-hidden="true">${item.emoji}</span>
       <span class="item-text">
-        <span class="item-name">${item.label}</span>
-        <span class="item-target">→ ${folderLabel}</span>
+        <span class="item-name">- ${group.label}</span>
+        <span class="item-count" id="count-${group.id}">0 / ${group.files.length}</span>
       </span>
-      <span class="item-check" aria-hidden="true"></span>
     `;
 
     list.append(li);
@@ -60,13 +79,31 @@ function buildChecklist() {
 }
 
 function markItemDone(fileName) {
-  if (checkedItems.has(fileName)) {
+  if (checkedFiles.has(fileName)) {
     return;
   }
-  checkedItems.add(fileName);
+  checkedFiles.add(fileName);
 
-  const li = document.getElementById(`item-${fileName}`);
-  if (li) {
+  const groupId = FILE_TO_GROUP[fileName];
+  if (!groupId) {
+    return;
+  }
+
+  const group = CHECKLIST_GROUPS.find((entry) => entry.id === groupId);
+  if (!group) {
+    return;
+  }
+
+  const currentDone = Math.min(group.files.length, (groupCounts.get(groupId) || 0) + 1);
+  groupCounts.set(groupId, currentDone);
+
+  const countLabel = document.getElementById(`count-${groupId}`);
+  if (countLabel) {
+    countLabel.textContent = `${currentDone} / ${group.files.length}`;
+  }
+
+  const li = document.getElementById(`item-${groupId}`);
+  if (li && currentDone === group.files.length) {
     li.classList.add("is-done");
     li.setAttribute("aria-label", li.getAttribute("aria-label") + " – erledigt");
   }
@@ -75,8 +112,10 @@ function markItemDone(fileName) {
 }
 
 function updateProgress() {
-  const total = CHECKLIST_ITEMS.length;
-  const done  = checkedItems.size;
+  const total = CHECKLIST_GROUPS.length;
+  const done = CHECKLIST_GROUPS.filter((group) => {
+    return (groupCounts.get(group.id) || 0) >= group.files.length;
+  }).length;
 
   const fill  = document.getElementById("progressFill");
   const label = document.getElementById("progressLabel");

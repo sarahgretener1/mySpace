@@ -1,13 +1,13 @@
 :root {
-  --bg: #0f1623;
-  --surface: #1a2236;
-  --surface-2: #222e44;
-  --accent: #4a9eff;
-  --accent-glow: rgba(74, 158, 255, 0.22);
-  --text: #e8f0ff;
-  --text-muted: rgba(232, 240, 255, 0.55);
-  --success: #34d399;
-  --success-bg: rgba(52, 211, 153, 0.12);
+  --bg: #f3eee3;
+  --surface: #fff3a8;
+  --surface-2: #e9dd92;
+  --accent: #ca7c17;
+  --accent-glow: rgba(202, 124, 23, 0.2);
+  --text: #3f321d;
+  --text-muted: rgba(63, 50, 29, 0.65);
+  --success: #2b8a3e;
+  --success-bg: rgba(104, 191, 126, 0.22);
   --radius: 20px;
 }
 
@@ -36,6 +36,10 @@ body {
   flex-direction: column;
   padding: 28px 20px 32px;
   gap: 16px;
+  background:
+    radial-gradient(circle at 8% 10%, rgba(255, 255, 255, 0.55), transparent 42%),
+    radial-gradient(circle at 88% 18%, rgba(214, 181, 141, 0.28), transparent 34%),
+    linear-gradient(165deg, #f7f2e8, #efe7d7);
 }
 
 /* ── Header ───────────────────────────────────────── */
@@ -72,7 +76,8 @@ body {
   gap: 8px;
   padding: 10px 14px;
   border-radius: 12px;
-  background: var(--surface);
+  background: rgba(255, 255, 255, 0.62);
+  border: 1px solid rgba(124, 99, 61, 0.16);
   font-size: 0.82rem;
   color: var(--text-muted);
 }
@@ -131,17 +136,36 @@ body {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
+  padding: 22px 14px 14px;
+  border-radius: 8px;
+  background: #fff2a1;
+  border: 1px solid rgba(139, 115, 63, 0.24);
+  box-shadow: 0 10px 22px rgba(102, 76, 33, 0.2);
+  position: relative;
+}
+
+.checklist::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-1deg);
+  width: 110px;
+  height: 20px;
+  background: rgba(255, 248, 211, 0.84);
+  border: 1px solid rgba(133, 116, 76, 0.16);
+  border-radius: 4px;
 }
 
 .checklist-item {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 14px 16px;
-  border-radius: 14px;
-  background: var(--surface);
-  border: 1px solid transparent;
+  gap: 8px;
+  padding: 12px 10px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.22);
+  border: 1px dashed rgba(115, 89, 45, 0.2);
   transition: background 0.25s, border-color 0.25s, opacity 0.25s;
   cursor: default;
 }
@@ -149,14 +173,7 @@ body {
 .checklist-item.is-done {
   background: var(--success-bg);
   border-color: rgba(52, 211, 153, 0.28);
-  opacity: 0.72;
-}
-
-.item-emoji {
-  font-size: 1.4rem;
-  flex-shrink: 0;
-  width: 32px;
-  text-align: center;
+  opacity: 0.88;
 }
 
 .item-text {
@@ -167,7 +184,7 @@ body {
 }
 
 .item-name {
-  font-size: 0.92rem;
+  font-size: 0.98rem;
   font-weight: 600;
   transition: text-decoration 0.2s;
 }
@@ -177,42 +194,11 @@ body {
   color: var(--text-muted);
 }
 
-.item-target {
-  font-size: 0.72rem;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-.item-check {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  flex-shrink: 0;
-  display: grid;
-  place-items: center;
-  transition: background 0.25s, border-color 0.25s;
-}
-
-.checklist-item.is-done .item-check {
-  background: var(--success);
-  border-color: var(--success);
-}
-
-.item-check::after {
-  content: "";
-  display: none;
-  width: 6px;
-  height: 10px;
-  border: 2px solid #fff;
-  border-top: none;
-  border-left: none;
-  transform: rotate(42deg) translateY(-1px);
-}
-
-.checklist-item.is-done .item-check::after {
-  display: block;
+.item-count {
+  margin-top: 3px;
+  font-size: 0.75rem;
+  color: rgba(67, 53, 28, 0.76);
+  font-weight: 600;
 }
 
 /* ── Progress bar ─────────────────────────────────── */
@@ -225,7 +211,7 @@ body {
 .progress-track {
   height: 6px;
   border-radius: 3px;
-  background: var(--surface-2);
+  background: rgba(112, 90, 54, 0.2);
   overflow: hidden;
 }
 
@@ -248,7 +234,7 @@ body {
   text-align: center;
   padding: 24px 16px;
   border-radius: var(--radius);
-  background: var(--success-bg);
+  background: rgba(217, 250, 226, 0.75);
   border: 1px solid rgba(52, 211, 153, 0.3);
   animation: fadeIn 0.5s ease;
 }

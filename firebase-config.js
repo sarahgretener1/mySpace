@@ -16,13 +16,8 @@
  * über den BroadcastChannel-Fallback (funktioniert im selben Browser).
  */
 
- // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  const firebaseConfig = {
+  // Firebase-Konfiguration – wird von sync.js als FIREBASE_CONFIG erwartet
+  const FIREBASE_CONFIG = {
     apiKey: "AIzaSyBm_owScyd9m98cXDcAaHsexehVI0qIvlc",
     authDomain: "myspace-room.firebaseapp.com",
     databaseURL: "https://myspace-room-default-rtdb.europe-west1.firebasedatabase.app",
@@ -31,4 +26,7 @@
     messagingSenderId: "660441624044",
     appId: "1:660441624044:web:10b98f67a4d9f74ca4e4c9"
   };
+
+  // Public base URL used for QR links when desktop runs locally (localhost/file://)
+  const FIREBASE_WEBAPP_URL = "https://myspace-room.web.app";
 

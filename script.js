@@ -21,8 +21,30 @@ const SESSION_ID = getOrCreateSessionId();
 const sync = new SyncManager(SESSION_ID);
 
 function getMobileUrl() {
-  const base = window.location.href.replace(/\/[^/]*$/, "/mobile.html");
-  return `${base}?s=${SESSION_ID}`;
+  const sessionParam = `s=${encodeURIComponent(SESSION_ID)}`;
+  const publicBase = typeof FIREBASE_WEBAPP_URL === "string" ? FIREBASE_WEBAPP_URL.trim() : "";
+
+  try {
+    const current = new URL(window.location.href);
+    const isHttp = current.protocol === "http:" || current.protocol === "https:";
+    const isLocalHost =
+      current.hostname === "localhost" ||
+      current.hostname === "127.0.0.1" ||
+      current.hostname.endsWith(".local");
+
+    if (isHttp && !isLocalHost) {
+      return `${current.origin}/mobile.html?${sessionParam}`;
+    }
+  } catch (_error) {
+    // Fallback handled below.
+  }
+
+  if (publicBase) {
+    return `${publicBase.replace(/\/$/, "")}/mobile.html?${sessionParam}`;
+  }
+
+  const fallbackBase = window.location.href.replace(/\/[^/]*$/, "/mobile.html");
+  return `${fallbackBase}?${sessionParam}`;
 }
 
 function initSecondScreenPanel() {
