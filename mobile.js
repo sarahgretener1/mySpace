@@ -20,21 +20,39 @@ const CHECKLIST_GROUPS = [
   },
   {
     id: "shirts",
-    label: "T-Shirts",
+    label: "Shirt",
     target: "wardrobe",
-    files: ["shirt.top", "shirt2.top"]
+    files: ["shirt.top"]
   },
   {
-    id: "sweater",
+    id: "sweaters",
     label: "Pullover",
     target: "wardrobe",
-    files: ["sweater.top"]
+    files: ["sweater.top", "sweater2.top"]
   },
   {
     id: "plushies",
     label: "Kuscheltiere",
     target: "bed",
     files: ["bear.teddy", "dog.teddy"]
+  },
+  {
+    id: "bags",
+    label: "Taschen",
+    target: "wardrobe",
+    files: ["bag1.bag", "bag2.bag"]
+  },
+  {
+    id: "sketchbook",
+    label: "Sketchbook",
+    target: "desk",
+    files: ["sketchbook.book"]
+  },
+  {
+    id: "trash",
+    label: "Müll",
+    target: "trash can",
+    files: ["can.bin"]
   }
 ];
 

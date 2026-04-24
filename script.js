@@ -100,27 +100,53 @@ const filePool = [
   "cap2.hat",
   "bear.teddy",
   "dog.teddy",
+  "bag1.bag",
+  "bag2.bag",
+  "can.bin",
+  "sketchbook.book",
   "sock1.socks",
   "sock2.socks",
   "sock3.socks",
   "sock4.socks",
   "sweater.top",
-  "shirt.top",
-  "shirt2.top"
+  "sweater2.top",
+  "shirt.top"
 ];
 
 const fileFolderMap = {
   "cap1.hat": "wardrobe",
   "cap2.hat": "wardrobe",
+  "bag1.bag": "wardrobe",
+  "bag2.bag": "wardrobe",
+  "can.bin": "trash can",
+  "sketchbook.book": "desk",
   "sock1.socks": "wardrobe",
   "sock2.socks": "wardrobe",
   "sock3.socks": "wardrobe",
   "sock4.socks": "wardrobe",
   "sweater.top": "wardrobe",
+  "sweater2.top": "wardrobe",
   "shirt.top": "wardrobe",
-  "shirt2.top": "wardrobe",
   "bear.teddy": "bed",
   "dog.teddy": "bed"
+};
+
+const fileIconMap = {
+  "bag1.bag": "img/bag1.png",
+  "bag2.bag": "img/bag2.png",
+  "can.bin": "img/can.png",
+  "sketchbook.book": "img/sketchbook.png",
+  "cap1.hat": "img/cap1.png",
+  "cap2.hat": "img/cap2.png",
+  "bear.teddy": "img/bear.png",
+  "dog.teddy": "img/dog.png",
+  "sock1.socks": "img/sock1.png",
+  "sock2.socks": "img/sock2.png",
+  "sock3.socks": "img/sock1.png",
+  "sock4.socks": "img/sock2.png",
+  "sweater.top": "img/sweater1.png",
+  "sweater2.top": "img/sweater2.png",
+  "shirt.top": "img/shirt.png"
 };
 
 let draggingFileId = null;
@@ -169,6 +195,14 @@ function makeIconElement(item, kind) {
 
   const shape = document.createElement("span");
   shape.className = `icon-shape ${kind}`;
+
+  if (kind === "file") {
+    const iconUrl = fileIconMap[item.name];
+    if (iconUrl) {
+      shape.classList.add("has-image");
+      shape.style.setProperty("--file-icon", `url(\"${iconUrl}\")`);
+    }
+  }
 
   const label = document.createElement("span");
   label.className = "icon-label";
@@ -266,6 +300,10 @@ function setActiveFolder(folderId) {
 }
 
 function renderFolderPanel() {
+  if (!activeFolderName || !folderList) {
+    return;
+  }
+
   const folder = state.folders.find((entry) => entry.id === state.activeFolderId);
   if (!folder) {
     return;

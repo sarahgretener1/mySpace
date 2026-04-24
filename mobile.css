@@ -133,6 +133,7 @@ body {
 }
 
 .checklist {
+  font-family: "Mynerve", "Comic Sans MS", "Bradley Hand", cursive;
   list-style: none;
   display: flex;
   flex-direction: column;

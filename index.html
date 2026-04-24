@@ -11,24 +11,35 @@
 </head>
 <body>
 	<div class="desktop" role="img" aria-label="Mac book desktop lookalike">
-		<img class="overlay-image nav-left-image" src="img/nav_links.png" alt="Navigation links">
-		<img class="overlay-image nav-right-image" src="img/nav_rechts.png" alt="Navigation rechts">
+		<header class="top-nav" aria-label="Desktop Navigation">
+			<div class="top-nav-left">
+				<span class="traffic-light red" aria-hidden="true"></span>
+				<span class="traffic-light yellow" aria-hidden="true"></span>
+				<span class="traffic-light green" aria-hidden="true"></span>
+				<span class="top-nav-item strong">Finder</span>
+				<span class="top-nav-item">Ablage</span>
+				<span class="top-nav-item">Bearbeiten</span>
+				<span class="top-nav-item">Darstellung</span>
+			</div>
+			<div class="top-nav-right">
+				<span class="top-nav-pill">Sync aktiv</span>
+				<span class="top-nav-pill">WLAN</span>
+				<span class="top-nav-pill">12:45</span>
+			</div>
+		</header>
 		<img class="overlay-image taskbar-image" src="img/taskleiste.png" alt="Taskleiste">
 
 		<main class="desktop-area">
 			<section class="desktop-icons" id="desktopIcons" aria-label="Desktop elements"></section>
 
 			<aside class="widget-card">
-				<p class="widget-title">Schnellzugriff</p>
-				<h1>Finder Ablage</h1>
+				<h1>My Space</h1>
 				<p class="widget-copy">
-					Auf dem Desktop werden zufaellige Dateien und Ordner erzeugt. Ziehe Dateien per
-					Drag and Drop auf einen Ordner, um sie dorthin zu verschieben.
+					A room tells. Anyone who enters reads it, consciously or not. The same goes for the digital desktop. It, too, is a space: functional, but also autobiographical. Cluttered or empty, unchanged for years or freshly arranged, it follows the same logic as a physical room.
 				</p>
-				<div class="folder-panel">
-					<p class="folder-name" id="activeFolderName">Ordnerinhalt</p>
-					<ul class="folder-list" id="folderList"></ul>
-				</div>
+				<p class="widget-copy">
+					Both accumulate. Files pile up, clothes pile up, and both get cleaned only when there's a reason to. A guest coming over. A deadline approaching. Or simply that feeling of wanting to reset, to feel in control again for a moment.
+				</p>
 
 				<p class="second-screen-copy">
 					Second Screen: Öffne die mobile Checkliste über QR-Code oder Link.
