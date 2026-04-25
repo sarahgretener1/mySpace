@@ -8,13 +8,13 @@
 const CHECKLIST_GROUPS = [
   {
     id: "socks",
-    label: "Socken",
+    label: "Socks",
     target: "wardrobe",
     files: ["sock1.socks", "sock2.socks", "sock3.socks", "sock4.socks"]
   },
   {
     id: "caps",
-    label: "Kappen",
+    label: "Caps",
     target: "wardrobe",
     files: ["cap1.hat", "cap2.hat"]
   },
@@ -26,19 +26,19 @@ const CHECKLIST_GROUPS = [
   },
   {
     id: "sweaters",
-    label: "Pullover",
+    label: "Sweaters",
     target: "wardrobe",
     files: ["sweater.top", "sweater2.top"]
   },
   {
     id: "plushies",
-    label: "Kuscheltiere",
+    label: "Plushies",
     target: "bed",
     files: ["bear.teddy", "dog.teddy"]
   },
   {
     id: "bags",
-    label: "Taschen",
+    label: "Bags",
     target: "wardrobe",
     files: ["bag1.bag", "bag2.bag"]
   },
@@ -50,7 +50,7 @@ const CHECKLIST_GROUPS = [
   },
   {
     id: "trash",
-    label: "Müll",
+    label: "Trash",
     target: "trash can",
     files: ["can.bin"]
   }
@@ -86,10 +86,8 @@ function buildChecklist() {
     li.setAttribute("aria-label", group.label);
 
     li.innerHTML = `
-      <span class="item-text">
-        <span class="item-name">- ${group.label}</span>
-        <span class="item-count" id="count-${group.id}">0 / ${group.files.length}</span>
-      </span>
+      <span class="item-name">${group.label}</span>
+      <span class="item-count" id="count-${group.id}">0/${group.files.length}</span>
     `;
 
     list.append(li);
@@ -117,13 +115,13 @@ function markItemDone(fileName) {
 
   const countLabel = document.getElementById(`count-${groupId}`);
   if (countLabel) {
-    countLabel.textContent = `${currentDone} / ${group.files.length}`;
+    countLabel.textContent = `${currentDone}/${group.files.length}`;
   }
 
   const li = document.getElementById(`item-${groupId}`);
   if (li && currentDone === group.files.length) {
     li.classList.add("is-done");
-    li.setAttribute("aria-label", li.getAttribute("aria-label") + " – erledigt");
+    li.setAttribute("aria-label", li.getAttribute("aria-label") + " - done");
   }
 
   updateProgress();
@@ -147,7 +145,7 @@ function updateProgress() {
     fill.style.width = `${Math.round((done / total) * 100)}%`;
   }
   if (label) {
-    label.textContent = `${done} / ${total} aufgeräumt`;
+    label.textContent = `${done}/${total}`;
   }
   if (done === total && done_) {
     done_.hidden = false;
@@ -172,17 +170,30 @@ function showNoSession() {
   }
   body.innerHTML = `
     <div class="no-session">
-      <strong>Kein Desktop verbunden</strong>
-      Öffne zuerst die Desktop-Ansicht und scanne den dort angezeigten QR-Code – oder rufe diese Seite über den angezeigten Link auf.
+      <strong>No desktop connected</strong>
+      Open the desktop view first and scan the QR code shown there, or open this page from the provided link.
     </div>
   `;
+}
+
+function resetChecklist() {
+  checkedFiles.clear();
+  groupCounts.clear();
+
+  const doneMessage = document.getElementById("doneMessage");
+  if (doneMessage) {
+    doneMessage.hidden = true;
+  }
+
+  buildChecklist();
+  updateProgress();
 }
 
 function init() {
   const sessionId = getSessionId();
 
   if (!sessionId) {
-    setStatus("Keine Session-ID in der URL", false);
+    setStatus("offline", false);
     showNoSession();
     return;
   }
@@ -198,22 +209,23 @@ function init() {
 
   buildChecklist();
 
-  setStatus("Verbinde mit Desktop…", false);
+  setStatus("connecting", false);
 
   sync = new SyncManager(sessionId);
 
   sync.on((event) => {
     if (event.type === "file_cleaned") {
-      setStatus("Verbunden – warte auf Aktionen", true);
+      setStatus("connected", true);
       markItemDone(event.fileName);
+    }
+
+    if (event.type === "session_reset") {
+      setStatus("connected", true);
+      resetChecklist();
     }
   });
 
-  const modeText = sync.isFirebaseActive()
-    ? "Verbunden (Firebase + BroadcastChannel)"
-    : "Verbunden (BroadcastChannel – gleiches Gerät)";
-
-  setStatus(modeText, true);
+  setStatus("connected", true);
 }
 
 init();

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="de">
+<html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +7,7 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="styles.css">
+	<link rel="stylesheet" href="styles.css?v=20260425-2">
 </head>
 <body>
 	<div class="desktop" role="img" aria-label="Mac book desktop lookalike">
@@ -17,17 +17,17 @@
 				<span class="traffic-light yellow" aria-hidden="true"></span>
 				<span class="traffic-light green" aria-hidden="true"></span>
 				<span class="top-nav-item strong">Finder</span>
-				<span class="top-nav-item">Ablage</span>
-				<span class="top-nav-item">Bearbeiten</span>
-				<span class="top-nav-item">Darstellung</span>
+				<span class="top-nav-item">File</span>
+				<span class="top-nav-item">Edit</span>
+				<span class="top-nav-item">View</span>
 			</div>
 			<div class="top-nav-right">
-				<span class="top-nav-pill">Sync aktiv</span>
-				<span class="top-nav-pill">WLAN</span>
+				<span class="top-nav-pill">Sync On</span>
+				<span class="top-nav-pill">Wi-Fi</span>
 				<span class="top-nav-pill">12:45</span>
 			</div>
 		</header>
-		<img class="overlay-image taskbar-image" src="img/taskleiste.png" alt="Taskleiste">
+		<img class="overlay-image taskbar-image" src="img/taskleiste.png" alt="Taskbar">
 
 		<main class="desktop-area">
 			<section class="desktop-icons" id="desktopIcons" aria-label="Desktop elements"></section>
@@ -42,18 +42,23 @@
 				</p>
 
 				<p class="second-screen-copy">
-					Second Screen: Öffne die mobile Checkliste über QR-Code oder Link.
+					Second Screen: Open the mobile checklist using the QR code or link.
 				</p>
 				<div class="qr-row">
-					<div class="qr-box" id="qrCode" aria-label="QR-Code zur mobilen Ansicht"></div>
+					<div class="qr-box" id="qrCode" aria-label="QR code for mobile view"></div>
 					<div class="qr-meta">
 						<p class="qr-label">Session</p>
 						<span class="qr-session-id" id="qrSessionId">-</span>
-						<a class="qr-link" id="qrLink" href="#" target="_blank" rel="noopener noreferrer">Link öffnen ↗</a>
+						<a class="qr-link" id="qrLink" href="#" target="_blank" rel="noopener noreferrer">Open link ↗</a>
 					</div>
 				</div>
-				<p class="sync-mode" id="syncMode">Sync wird geprüft...</p>
+				<p class="sync-mode" id="syncMode">Checking sync...</p>
 			</aside>
+
+			<section class="success-panel" id="successPanel" hidden>
+				<p class="success-text">You did it, and once again it went much faster than expected!</p>
+				<button class="restart-button" id="restartButton" type="button">restart</button>
+			</section>
 		</main>
 
 	</div>
@@ -62,7 +67,7 @@
 	<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 	<script src="firebase-config.js"></script>
-	<script src="sync.js"></script>
-	<script src="script.js"></script>
+	<script src="sync.js?v=20260425-2"></script>
+	<script src="script.js?v=20260425-2"></script>
 </body>
 </html>

@@ -2,6 +2,8 @@ const desktopIcons = document.getElementById("desktopIcons");
 const activeFolderName = document.getElementById("activeFolderName");
 const folderList = document.getElementById("folderList");
 const widgetCard = document.querySelector(".widget-card");
+const successPanel = document.getElementById("successPanel");
+const restartButton = document.getElementById("restartButton");
 
 const ICON_WIDTH = 106;
 const ICON_HEIGHT = 98;
@@ -64,12 +66,12 @@ function initSecondScreenPanel() {
   }
   if (qrLink) {
     qrLink.href = mobileUrl;
-    qrLink.textContent = "Link öffnen ↗";
+    qrLink.textContent = "Open link ↗";
   }
   if (syncMode) {
     syncMode.textContent = sync.isFirebaseActive()
-      ? "🟢 Firebase aktiv – geräteübergreifend"
-      : "🟡 BroadcastChannel – nur gleicher Browser";
+      ? "Firebase active - cross-device"
+      : "BroadcastChannel - same browser only";
   }
 
   if (typeof QRCode !== "undefined") {
@@ -82,7 +84,7 @@ function initSecondScreenPanel() {
       correctLevel: QRCode.CorrectLevel.M
     });
   } else {
-    qrCode.innerHTML = `<a class="qr-fallback-link" href="${mobileUrl}" target="_blank" rel="noopener noreferrer">Mobile öffnen ↗</a>`;
+    qrCode.innerHTML = `<a class="qr-fallback-link" href="${mobileUrl}" target="_blank" rel="noopener noreferrer">Open mobile ↗</a>`;
   }
 }
 
@@ -309,13 +311,13 @@ function renderFolderPanel() {
     return;
   }
 
-  activeFolderName.textContent = `${folder.name} Inhalt`;
+  activeFolderName.textContent = `${folder.name} Contents`;
   folderList.innerHTML = "";
 
   if (!folder.files.length) {
     const empty = document.createElement("li");
     empty.className = "is-empty";
-    empty.textContent = "Noch keine Dateien";
+    empty.textContent = "No files yet";
     folderList.append(empty);
     return;
   }
@@ -362,7 +364,7 @@ function renderDesktop() {
 
     const counter = document.createElement("span");
     counter.className = "icon-count";
-    counter.textContent = `${folder.files.length} Datei${folder.files.length === 1 ? "" : "en"}`;
+    counter.textContent = `${folder.files.length} File${folder.files.length === 1 ? "" : "s"}`;
     folderElement.append(counter);
 
     folderElement.addEventListener("click", () => {
@@ -422,6 +424,37 @@ function renderDesktop() {
 
   applyRandomLayout();
   renderFolderPanel();
+  updateCompletionState();
+}
+
+function updateCompletionState() {
+  if (!successPanel) {
+    return;
+  }
+
+  const hasDesktopFilesInState = state.files.some((file) => file.location === "desktop");
+  const hasDesktopFileIcons = desktopIcons
+    ? desktopIcons.querySelector('[data-kind="file"]') !== null
+    : false;
+
+  const allCleaned = !hasDesktopFilesInState && !hasDesktopFileIcons;
+  successPanel.hidden = !allCleaned;
+}
+
+function restartGame() {
+  const nextState = createDesktopState();
+
+  state.folders = nextState.folders;
+  state.files = nextState.files;
+  state.activeFolderId = nextState.activeFolderId;
+  state.positions = nextState.positions;
+
+  sync.emit("session_reset", {});
+  renderDesktop();
+}
+
+if (restartButton) {
+  restartButton.addEventListener("click", restartGame);
 }
 
 renderDesktop();
