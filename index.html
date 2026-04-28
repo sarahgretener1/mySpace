@@ -7,6 +7,7 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Mynerve&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="styles.css?v=20260425-2">
 </head>
 <body>
@@ -56,8 +57,18 @@
 			</aside>
 
 			<section class="success-panel" id="successPanel" hidden>
-				<p class="success-text">You did it, and once again it went much faster than expected!</p>
-				<button class="restart-button" id="restartButton" type="button">restart</button>
+				<div class="success-note">
+					<div class="success-tape" aria-hidden="true"></div>
+					<div class="success-hole-column" aria-hidden="true">
+						<span></span>
+						<span></span>
+						<span></span>
+						<span></span>
+					</div>
+					<p class="success-text">You did it!</p>
+					<p class="success-subtext">And once again, it went much faster than expected.</p>
+					<button class="restart-button" id="restartButton" type="button">restart</button>
+				</div>
 			</section>
 		</main>
 

@@ -444,6 +444,10 @@ function updateCompletionState() {
 function restartGame() {
   const nextState = createDesktopState();
 
+  if (successPanel) {
+    successPanel.hidden = true;
+  }
+
   state.folders = nextState.folders;
   state.files = nextState.files;
   state.activeFolderId = nextState.activeFolderId;
